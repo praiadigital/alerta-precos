@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alerta de Preços — oportunidades no litoral | Praia Digital</title>
+<meta name="description" content="Configure alertas de queda de preço do m² nas cidades do litoral paulista e receba oportunidades primeiro.">
+<link rel="canonical" href="https://praia.digital/alerta-precos/">
+<meta name="robots" content="index, follow">
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif}
+body{margin:0;background:#450a0a;color:#fecaca;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:40px 20px}
+.card{background:#7f1d1d;border:1px solid #b91c1c;border-radius:16px;padding:24px;margin-top:20px}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid #ef4444;background:#450a0a;color:#fecaca;margin-top:6px;box-sizing:border-box}
+button{background:#ef4444;color:#fff;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;margin-top:14px}
+label{font-size:14px;font-weight:600;margin-top:10px;display:block}
+.alerta{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.08);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:14px}
+.alerta button{background:none;border:0;color:#fca5a5;cursor:pointer;padding:0;margin:0;font-size:16px}
+.btn{display:inline-block;margin-top:16px;padding:12px 18px;border-radius:12px;background:#0ea5e9;color:#fff;text-decoration:none;font-weight:700}
+small{opacity:.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🚨 Alerta de Preços</h1>
+  <p>Configure alertas de queda do preço do m² e seja avisado quando surgir oportunidade.</p>
+  <div class="card">
+    <label>Cidade</label>
+    <select id="cidade"><option>Santos</option><option>Guarujá</option><option>Praia Grande</option><option>Bertioga</option><option>São Vicente</option><option>Mongaguá</option><option>Itanhaém</option><option>Peruíbe</option></select>
+    <label>Preço-alvo do m² (R$)</label><input id="alvo" type="number" value="5000">
+    <label>Seu WhatsApp (com DDD)</label><input id="wa" type="tel" placeholder="11999999999">
+    <button onclick="add()">Criar alerta</button>
+  </div>
+  <div class="card">
+    <h2>Meus alertas</h2>
+    <div id="lista"><p><small>Nenhum alerta configurado ainda.</small></p></div>
+  </div>
+  <small>Demo local: alertas ficam salvos no seu navegador. Versão completa com monitoramento real em breve via Hermes Agents.</small><br>
+  <a class="btn" href="https://praiadigital.github.io/radar-precos/">Radar de Preços</a>
+  <a class="btn" href="https://praiadigital.github.io/hermes-agents/">Hermes Agents</a>
+  <a class="btn" href="https://praiadigital.github.io/score-investidor/">Score do Investidor</a>
+</div>
+<script>
+let alertas=JSON.parse(localStorage.getItem('pd_alertas')||'[]');
+function render(){
+  const l=document.getElementById('lista');
+  if(!alertas.length){l.innerHTML='<p><small>Nenhum alerta configurado ainda.</small></p>';return;}
+  l.innerHTML=alertas.map((a,i)=>'<div class="alerta"><span>📍 '+a.cidade+' — avisar se m² < R$ '+a.alvo.toLocaleString('pt-BR')+' (WhatsApp '+a.wa+')</span><button onclick="del('+i+')">✕</button></div>').join('');
+}
+function add(){
+  const wa=document.getElementById('wa').value.trim();
+  if(!wa){alert('Informe seu WhatsApp.');return;}
+  alertas.push({cidade:document.getElementById('cidade').value,alvo:+document.getElementById('alvo').value,wa:wa});
+  localStorage.setItem('pd_alertas',JSON.stringify(alertas));render();
+}
+function del(i){alertas.splice(i,1);localStorage.setItem('pd_alertas',JSON.stringify(alertas));render();}
+render();
+</script>
+<hr style="margin:40px 0 20px;border:none;border-top:1px solid #b91c1c">
+<nav style="font-size:.95em;text-align:center;padding:0 16px 32px;color:#fca5a5">
+<strong>Rede Praia Digital:</strong><br>
+<a style="color:#fca5a5" href="https://praia.digital/">Praia Digital</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/apps/">Todos os apps</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/ferramentas/">Ferramentas</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/calculadoras/">Calculadoras</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/simulador-roi/">Simulador ROI</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/simulador-credito/">Simulador de Crédito</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/area-anfitriao/">Área do Anfitrião</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/guia-litoral/">Guia do Litoral</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/blog-litoral/">Blog</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/hermes-agents/">Hermes Agents</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/match-imovel/">Match Imóvel</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/score-investidor/">Score do Investidor</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/radar-precos/">Radar de Preços</a> ·
+<a style="color:#fca5a5" href="https://praiadigital.github.io/comparador-cidades/">Comparador de Cidades</a>
+</nav>
+</body>
+</html>
